@@ -44,7 +44,8 @@ export function AccordionServicos() {
   const navigate = useNavigate();
 
   return (
-    <Card className="bg-white/80 backdrop-blur-lg shadow-xl">
+    <Card className="bg-white/60 backdrop-blur-lg shadow-xl w-full max-w-sm">
+
       <CardHeader>
         <CardTitle>Menu de Serviços</CardTitle>
       </CardHeader>
@@ -52,6 +53,7 @@ export function AccordionServicos() {
       <CardContent>
         <Accordion type="single" collapsible defaultValue="limpeza">
           {items.map((item) => (
+
             <AccordionItem key={item.id} value={item.value}>
               
               <AccordionTrigger>
@@ -64,7 +66,7 @@ export function AccordionServicos() {
               </AccordionTrigger>
 
               <AccordionContent>
-                <div className="flex flex-col gap-4">
+                <div className="w-full flex flex-col gap-4">
 
                   <p>{item.descricao}</p>
 
@@ -76,7 +78,7 @@ export function AccordionServicos() {
                       })
                     }
                   >
-                    Agendar
+                    <p>Agendar horário</p>
                   </Button>
 
                   <p className="text-sm text-muted-foreground">

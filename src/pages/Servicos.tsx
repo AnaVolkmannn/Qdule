@@ -1,10 +1,12 @@
 import { AccordionServicos } from "@/components/servicos/accordion_servicos";
+import Header from "@/components/servicos/header";
 
 export default function Servico() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-6 p-6">
-      <h1 className="text-6xl font-semibold">Hanna Kupas</h1>
-      <h2 className="text-3xl font-semibold">Estética Facial & Corporal</h2>
+    <div className="flex flex-col items-center justify-center">
+      <Header />
+      <h1 className="text-4xl font-semibold pt-20">Hanna Kupas</h1>
+      <h2 className="text-3xl font-semibold pb-10">Estética Facial & Corporal</h2>
       <AccordionServicos/>
     </div>
   );

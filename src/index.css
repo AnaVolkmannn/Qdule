@@ -5,65 +5,68 @@
 @import "@fontsource/anek-kannada";
 
 /* =========================
-   ROOT
+  ROOT
 ========================= */
 :root {
-  /* cores base */
   --text: #000000;
-  --text-heading: #08060d;
-  --border: #e5e5e5;
+  --text-h: #08060d;
+  --bg: #ffffff;
+  --border: oklch(0.922 0 0);
   --code-bg: #ffffff;
-
-  /* fundo */
-  --background: #ffffff;
-
-  /* cores principais */
-  --primary: #1f1f1f;
-  --secondary: #f3f3f3;
-  --accent: #f2a7d6;
-
-  /* estados de texto */
-  --text-muted: #6b6375;
-
-  /* fontes */
   --font-heading: "Cal Sans", sans-serif;
   --font-body: "Anek Kannada", sans-serif;
   --font-mono: ui-monospace, Consolas, monospace;
 
-  /* gradiente global */
-  --bg-gradient: linear-gradient(
-    90deg,
-    #e3a8a1 0%,
-    #f7afcf 50%,
-    #d8a6f7 100%
-  );
+  letter-spacing: 0.20px;
+
+  /* DEGRADE GLOBAL */
+  --bg-gradient:
+    linear-gradient(
+      90deg,
+      #e3a8a1 0%,
+      #f7afcf 50%,
+      #d8a6f7 100%
+    );
+
+  /* shadcn tokens */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+
+  --primary: oklch(0.205 0 0);
+  --secondary: oklch(0.97 0 0);
+  --muted: oklch(0.97 0 0);
+  --accent: oklch(0.97 0 0);
+  --ring: oklch(0.708 0 0);
 }
 
 /* =========================
    BASE GLOBAL
 ========================= */
 html {
+  min-height: 100vh;
   font-family: var(--font-body);
   background: var(--bg-gradient);
 }
 
 body {
+  margin: 0;
   min-height: 100vh;
   color: var(--text);
-  margin: 0;
-  padding: 0;
 }
 
-/* layout principal */
 #root {
+  max-width: 100%;
+  margin: 0 auto;
   text-align: center;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  background: transparent; 
 }
 
 /* =========================
    TIPOGRAFIA
-========================= */
+========================= */ 
 h1,
 h2,
 h3,
@@ -72,13 +75,62 @@ h5,
 h6 {
   font-family: var(--font-heading);
   font-weight: 500;
-  color: var(--text-heading);
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 56px;
+  margin: 32px 0;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+p {
+  font-size:large;
+  margin: 2px;
+}
+
+code {
+  font-family: var(--font-mono);
+  padding: 4px 8px;
+  background: var(--code-bg);
 }
 
 /* =========================
-   BASE GLOBAL STYLES
+   TAILWIND / SHADCN
 ========================= */
-* {
-  border-color: var(--border);
-  box-sizing: border-box;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-muted: var(--muted);
+  --color-accent: var(--accent);
+  --color-ring: var(--ring);
+}
+
+/* =========================
+   GLOBAL BASE
+========================= */
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: var(--ring);
+  }
+}
+
+/* =========================
+   COMPONENTE (igual ao da imagem)
+========================= */
+.card-gradient {
+  background: linear-gradient(
+    90deg,
+    #e3a8a1 0%,
+    #f7afcf 50%,
+    #d8a6f7 100%
+  );
 }
