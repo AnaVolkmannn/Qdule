@@ -17,26 +17,20 @@
   --font-body: "Anek Kannada", sans-serif;
   --font-mono: ui-monospace, Consolas, monospace;
 
-  letter-spacing: 0.20px;
+  letter-spacing: 0.2px;
 
   /* DEGRADE GLOBAL */
-  --bg-gradient:
-    linear-gradient(
-      90deg,
-      #e3a8a1 0%,
-      #f7afcf 50%,
-      #d8a6f7 100%
-    );
+  --bg-gradient: linear-gradient(90deg, #e3a8a1 0%, #f7afcf 50%, #d8a6f7 100%);
 
   /* shadcn tokens */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
 
-  --primary: oklch(0.205 0 0);
+  --primary: oklch(66.498% 0.28171 345.991);
   --secondary: oklch(0.97 0 0);
   --muted: oklch(0.97 0 0);
   --accent: oklch(0.97 0 0);
-  --ring: oklch(0.708 0 0);
+  --ring: oklch(45.535% 0.21474 311.865);
 }
 
 /* =========================
@@ -61,12 +55,12 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: transparent; 
+  background: transparent;
 }
 
 /* =========================
    TIPOGRAFIA
-========================= */ 
+========================= */
 h1,
 h2,
 h3,
@@ -89,7 +83,7 @@ h2 {
 }
 
 p {
-  font-size:large;
+  font-size: large;
   margin: 2px;
 }
 
@@ -127,10 +121,5 @@ code {
    COMPONENTE (igual ao da imagem)
 ========================= */
 .card-gradient {
-  background: linear-gradient(
-    90deg,
-    #e3a8a1 0%,
-    #f7afcf 50%,
-    #d8a6f7 100%
-  );
+  background: linear-gradient(90deg, #e3a8a1 0%, #f7afcf 50%, #d8a6f7 100%);
 }

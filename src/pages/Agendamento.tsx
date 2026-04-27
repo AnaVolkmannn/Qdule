@@ -7,9 +7,10 @@ import { Calendar } from "@/components/ui/calendar";
 /* ================= MOCK ================= */
 
 const mockHorarios: Record<number, string[]> = {
-  21: ["08:30", "09:30"],
+  21: ["08:30", "09:30", "10:00", "10:15", "10:30"],
   22: ["10:00"],
   23: ["14:00"],
+  27: ["10:00"],
 };
 
 export default function Agenda() {
@@ -20,9 +21,14 @@ export default function Agenda() {
 
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [horarios, setHorarios] = useState<string[]>([]);
-  const [horarioSelecionado, setHorarioSelecionado] = useState<string | null>(null);
+  const [horarioSelecionado, setHorarioSelecionado] = useState<string | null>(
+    null,
+  );
 
-  const diaSelecionado = date?.getDate() ?? null;
+  const diaSelecionado = date ? String(date.getDate()).padStart(2, "0") : null;
+  const mesSelecionado = date
+    ? String(date.getMonth() + 1).padStart(2, "0")
+    : null;
 
   useEffect(() => {
     if (!diaSelecionado) return;
@@ -31,7 +37,8 @@ export default function Agenda() {
     setHorarioSelecionado(null);
 
     const timer = setTimeout(() => {
-      setHorarios(mockHorarios[diaSelecionado] || []);
+      const diaNum = Number(diaSelecionado);
+      setHorarios(mockHorarios[diaNum] || []);
     }, 250);
 
     return () => clearTimeout(timer);
@@ -41,8 +48,10 @@ export default function Agenda() {
     console.log({
       servicoId: servico?.id,
       dia: diaSelecionado,
+      mes: mesSelecionado,
       horario: horarioSelecionado,
     });
+    navigate("/cadastro");
   }
 
   if (!servico) {
@@ -55,26 +64,19 @@ export default function Agenda() {
 
   return (
     <div className="min-h-screen px-6 py-10 flex justify-center">
-
       <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-10">
-
         {/* ================= LEFT ================= */}
         <div className="flex flex-col gap-6">
-
           <header className="flex items-center gap-3">
             <Button variant="ghost" onClick={() => navigate(-1)}>
               <ArrowLeft />
             </Button>
 
-            <h1 className="text-2xl font-semibold">
-              Agendamento
-            </h1>
+            <h1 className="text-2xl font-semibold">Agendamento</h1>
           </header>
 
           <div className="rounded-2xl p-6 bg-white/60 backdrop-blur shadow-sm">
-            <p className="text-sm text-muted-foreground">
-              Serviço selecionado
-            </p>
+            <p className="text-sm text-muted-foreground">Serviço selecionado</p>
 
             <h2 className="text-2xl font-bold text-pink-500 mt-1">
               {servico.nome}
@@ -84,29 +86,28 @@ export default function Agenda() {
               R$ {servico.preco} • {servico.duracao} min
             </p>
           </div>
-
         </div>
 
         {/* ================= RIGHT ================= */}
         <div className="flex flex-col gap-8">
-
           {/* CALENDÁRIO */}
           <div>
             <h3 className="font-medium mb-3">Escolha o dia</h3>
 
             <div className="flex justify-center">
-             <Calendar
+              <Calendar
                 mode="single"
                 selected={date}
                 onSelect={setDate}
                 captionLayout="dropdown"
+                disabled={{ before: new Date() }}
                 className="rounded-lg bordered bg-white/60 backdrop-blur shadow-sm"
               />
             </div>
 
             {diaSelecionado && (
               <p className="text-sm text-muted-foreground pt-4 text-center">
-                Dia selecionado: {diaSelecionado}
+                Data selecionada: {diaSelecionado}/{mesSelecionado}
               </p>
             )}
           </div>
@@ -118,7 +119,7 @@ export default function Agenda() {
             <div className="grid grid-cols-3 gap-3">
               {horarios.length === 0 && diaSelecionado && (
                 <p className="col-span-3 text-sm text-muted-foreground">
-                  Nenhum horário disponível
+                  Nenhum horário disponível para esse dia
                 </p>
               )}
 
@@ -132,9 +133,7 @@ export default function Agenda() {
                     variant="outline"
                     className={`
                       rounded-xl transition
-                      ${ativo
-                        ? "bg-pink-400 text-white border-pink-400"
-                        : ""}
+                      ${ativo ? "bg-pink-400 text-white border-pink-400" : ""}
                     `}
                   >
                     {hora}
@@ -159,9 +158,7 @@ export default function Agenda() {
               Confirmar agendamento
             </Button>
           </div>
-
         </div>
-
       </div>
     </div>
   );
