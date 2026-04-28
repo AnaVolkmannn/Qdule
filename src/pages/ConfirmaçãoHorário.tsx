@@ -74,15 +74,15 @@ export default function ConfirmaçãoHorário() {
 
             <div className="pt-4 rounded-xl px-10 flex flex-col items-center justify-center gap-2">
               <div className="flex items-center gap-2">
-                <CalendarDays className="size-4 text-pink-600" />
-                <p className="text-gray-800 font-semibold text-sm">
+                <CalendarDays className="size-10 text-pink-600" />
+                <h2 className="font-semibold text-sm">
                   {dia}/{mes}
-                </p>
+                </h2>
               </div>
 
               <div className="flex items-center gap-2">
-                <Clock className="size-4 text-pink-600" />
-                <p className="text-gray-800 font-semibold text-sm">{horario}</p>
+                <Clock className="size-10 text-pink-600" />
+                <h2 className="font-bold">{horario}</h2>
               </div>
             </div>
 
