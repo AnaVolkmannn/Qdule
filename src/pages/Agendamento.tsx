@@ -45,13 +45,16 @@ export default function Agenda() {
   }, [diaSelecionado]);
 
   function handleConfirmar() {
-    console.log({
-      servicoId: servico?.id,
-      dia: diaSelecionado,
-      mes: mesSelecionado,
-      horario: horarioSelecionado,
+    navigate("/cadastro", {
+      state: {
+        agendamento: {
+          servico: servico, // O que veio da primeira tela
+          dia: diaSelecionado, // Adicionado aqui
+          mes: mesSelecionado, // Adicionado aqui
+          horario: horarioSelecionado, // Adicionado aqui
+        },
+      },
     });
-    navigate("/cadastro");
   }
 
   if (!servico) {

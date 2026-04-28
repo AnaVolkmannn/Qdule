@@ -4,12 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
@@ -45,7 +40,6 @@ export function AccordionServicos() {
 
   return (
     <Card className="bg-white/60 backdrop-blur-lg shadow-xl w-full max-w-sm">
-
       <CardHeader>
         <CardTitle>Menu de Serviços</CardTitle>
       </CardHeader>
@@ -53,21 +47,16 @@ export function AccordionServicos() {
       <CardContent>
         <Accordion type="single" collapsible defaultValue="limpeza">
           {items.map((item) => (
-
             <AccordionItem key={item.id} value={item.value}>
-              
               <AccordionTrigger>
                 <div className="flex justify-between w-full mr-2">
                   <p>{item.nome}</p>
-                  <p className="text-pink-400 font-medium">
-                    R$ {item.preco}
-                  </p>
+                  <p className="text-pink-400 font-medium">R$ {item.preco}</p>
                 </div>
               </AccordionTrigger>
 
               <AccordionContent>
                 <div className="w-full flex flex-col gap-4">
-
                   <p>{item.descricao}</p>
 
                   <Button
@@ -78,16 +67,14 @@ export function AccordionServicos() {
                       })
                     }
                   >
-                    <p>Agendar horário</p>
+                    <p>Ver horários disponíveis</p>
                   </Button>
 
                   <p className="text-sm text-muted-foreground">
                     Duração média: {item.duracao} min
                   </p>
-
                 </div>
               </AccordionContent>
-
             </AccordionItem>
           ))}
         </Accordion>

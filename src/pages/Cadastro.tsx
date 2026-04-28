@@ -2,99 +2,52 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useForm } from "react-hook-form"; // 1. Importa o hook
 
 export default function Cadastro() {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const [form, setForm] = useState({
-    nome: "",
-    email: "",
-    celular: "",
-  });
+  // 2. Recupera o que veio da Agenda (serviço, dia, mês, horário)
+  const dadosAgendamento = location.state?.agendamento || {};
 
-  const [errors, setErrors] = useState({
-    nome: "",
-    email: "",
-    celular: "",
-  });
-
-  function validar() {
-    let novosErros = {
+  // 3. Configura o React Hook Form
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
       nome: "",
       email: "",
       celular: "",
-    };
+    },
+  });
 
-    // Nome
-    if (!form.nome.trim()) {
-      novosErros.nome = "Nome é obrigatório";
-    } else if (form.nome.trim().length < 3) {
-      novosErros.nome = "Nome muito curto";
-    }
+  // 4. AQUI VAI O TRECHO: Função que é executada após validar com sucesso
+  const onSubmit = (dadosDoFormulario: any) => {
+    navigate("/confirmacao", {
+      state: {
+        agendamento: {
+          ...dadosAgendamento, // Mantém o que veio da Agenda
+          ...dadosDoFormulario, // Adiciona nome, email e celular do formulário
+        },
+      },
+    });
+  };
 
-    // Email
-    if (!form.email.trim()) {
-      novosErros.email = "E-mail é obrigatório";
-    } else if (!/\S+@\S+\.\S+/.test(form.email)) {
-      novosErros.email = "E-mail inválido";
-    }
-
-    // Celular
-    if (!form.celular.trim()) {
-      novosErros.celular = "Celular é obrigatório";
-    } else if (!/^\(\d{2}\)\s?\d{4,5}-\d{4}$/.test(form.celular)) {
-      novosErros.celular = "Formato inválido (ex: (47) 99999-9999)";
-    }
-
-    setErrors(novosErros);
-
-    return !novosErros.nome && !novosErros.email && !novosErros.celular;
-  }
-
-  function formatarCelular(valor: string) {
-    const numeros = valor.replace(/\D/g, "");
-
-    if (numeros.length <= 2) {
-      return `(${numeros}`;
-    }
-
-    if (numeros.length <= 7) {
-      return `(${numeros.slice(0, 2)}) ${numeros.slice(2)}`;
-    }
-
-    if (numeros.length <= 11) {
-      return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7)}`;
-    }
-
-    return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7, 11)}`;
-  }
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const { id, value } = e.target;
-
-    if (id === "celular") {
-      setForm({
-        ...form,
-        celular: formatarCelular(value),
-      });
-    } else {
-      setForm({
-        ...form,
-        [id]: value,
-      });
-    }
-  }
-
-  function handleSubmit() {
-    if (validar()) {
-      alert("Cadastro confirmado!");
-      navigate("/confirmacao");
-    }
-  }
-
-  const isDisabled = !form.nome || !form.email || !form.celular;
+  // Função para formatar o celular (opcional se quiseres manter a máscara viva)
+  const handleCelularChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const valor = e.target.value;
+    const formatado = valor
+      .replace(/\D/g, "")
+      .replace(/^(\d{2})(\d)/g, "($1) $2")
+      .replace(/(\d{5})(\d)/, "$1-$2")
+      .substring(0, 15);
+    setValue("celular", formatado); // Atualiza o valor no hook form
+  };
 
   return (
     <div className="min-h-screen p-6 flex flex-col items-center justify-center">
@@ -103,87 +56,72 @@ export default function Cadastro() {
           <Button variant="ghost" onClick={() => navigate(-1)}>
             <ArrowLeft />
           </Button>
-
-          <h2 className="text-4x2 font-semibold">
-            Para confirmar seu horário, precisamos de um cadastro.
-          </h2>
+          <h2 className="text-xl font-semibold">Confirmar Cadastro</h2>
         </header>
 
-        <div className="grid w-full gap-4 bg-white/40 p-6 rounded-2xl shadow-sm backdrop-blur-sm">
-          <h2 className="text-lg font-bold text-gray-700 mb-2">
-            Dados para contato
-          </h2>
-
-          {/* Nome */}
+        {/* 5. O formulário agora usa o handleSubmit do hook form */}
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="grid w-full gap-4 bg-white/40 p-6 rounded-2xl shadow-sm backdrop-blur-sm border border-white/20"
+        >
           <div className="grid gap-2">
-            <Label className="font-bold" htmlFor="nome">
-              Nome Completo
-            </Label>
+            <Label className="font-bold text-sm">Nome Completo</Label>
             <Input
               className="bg-white"
-              type="text"
-              id="nome"
-              value={form.nome}
-              onChange={handleChange}
+              {...register("nome", {
+                required: "Nome é obrigatório",
+                minLength: { value: 3, message: "Nome muito curto" },
+              })}
               placeholder="Ex: Maria Silva"
             />
             {errors.nome && (
-              <span className="text-red-500 text-sm">{errors.nome}</span>
+              <span className="text-red-500 text-xs">
+                {errors.nome.message}
+              </span>
             )}
           </div>
 
-          {/* Email */}
           <div className="grid gap-2">
-            <Label className="font-bold" htmlFor="email">
-              E-mail
-            </Label>
+            <Label className="font-bold text-sm">E-mail</Label>
             <Input
               className="bg-white"
               type="email"
-              id="email"
-              value={form.email}
-              onChange={handleChange}
+              {...register("email", {
+                required: "E-mail obrigatório",
+                pattern: { value: /\S+@\S+\.\S+/, message: "E-mail inválido" },
+              })}
               placeholder="exemplo@email.com"
             />
             {errors.email && (
-              <span className="text-red-500 text-sm">{errors.email}</span>
+              <span className="text-red-500 text-xs">
+                {errors.email.message}
+              </span>
             )}
           </div>
 
-          {/* Celular */}
           <div className="grid gap-2">
-            <Label className="font-bold" htmlFor="celular">
-              Celular
-            </Label>
+            <Label className="font-bold text-sm">Celular</Label>
             <Input
               className="bg-white"
               type="tel"
-              id="celular"
-              value={form.celular}
-              onChange={handleChange}
+              {...register("celular", { required: "Celular é obrigatório" })}
+              onChange={handleCelularChange} // Mantém a tua máscara
               placeholder="(47) 99999-9999"
             />
             {errors.celular && (
-              <span className="text-red-500 text-sm">{errors.celular}</span>
+              <span className="text-red-500 text-xs">
+                {errors.celular.message}
+              </span>
             )}
           </div>
 
-          <div className="mt-4">
-            <Button
-              onClick={handleSubmit}
-              disabled={isDisabled}
-              className="
-                w-full
-                bg-pink-400 hover:bg-pink-500
-                text-white rounded-xl
-                disabled:opacity-50
-                h-12
-              "
-            >
-              Confirmar
-            </Button>
-          </div>
-        </div>
+          <Button
+            type="submit"
+            className="w-full bg-pink-400 hover:bg-pink-500 text-white rounded-xl h-12 mt-4"
+          >
+            Confirmar
+          </Button>
+        </form>
       </div>
     </div>
   );
