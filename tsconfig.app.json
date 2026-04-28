@@ -7,9 +7,9 @@
     "types": ["vite/client"],
     "skipLibCheck": true,
 
-    "baseUrl": ".",
+    // Removido baseUrl: "."
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["./src/*"] // Adicionado o "./" no início do caminho
     },
 
     "moduleResolution": "bundler",
