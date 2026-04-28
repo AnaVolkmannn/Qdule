@@ -25,7 +25,7 @@ export default function ConfirmaçãoHorário() {
 
   function finalizarAgendamento() {
     alert(`Agendamento realizado com sucesso para ${nome}!`);
-    navigate("/"); // Volta para o início após concluir
+    navigate("/sucesso"); // retorna sucesso
   }
 
   function cancelarAgendamento() {

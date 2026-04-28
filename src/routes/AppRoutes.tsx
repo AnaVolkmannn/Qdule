@@ -3,6 +3,7 @@ import Servico from "@/pages/Servicos";
 import Agenda from "@/pages/Agendamento";
 import Cadastro from "@/pages/Cadastro";
 import ConfirmaçãoHorário from "@/pages/ConfirmaçãoHorário";
+import Sucesso from "@/pages/Sucesso";
 
 export default function AppRoutes() {
   return (
@@ -12,6 +13,7 @@ export default function AppRoutes() {
         <Route path="/agenda" element={<Agenda />} />
         <Route path="/cadastro" element={<Cadastro />} />
         <Route path="/confirmacao" element={<ConfirmaçãoHorário />} />
+        <Route path="/sucesso" element={<Sucesso />} />
       </Routes>
     </BrowserRouter>
   );
