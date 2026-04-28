@@ -48,7 +48,7 @@ export function AccordionServicos() {
         <Accordion type="single" collapsible defaultValue="limpeza">
           {items.map((item) => (
             <AccordionItem key={item.id} value={item.value}>
-              <AccordionTrigger>
+              <AccordionTrigger className="cursor-pointer">
                 <div className="flex justify-between w-full mr-2">
                   <p>{item.nome}</p>
                   <p className="text-pink-400 font-medium">R$ {item.preco}</p>
@@ -60,6 +60,7 @@ export function AccordionServicos() {
                   <p>{item.descricao}</p>
 
                   <Button
+                    className="cursor-pointer"
                     variant="outline"
                     onClick={() =>
                       navigate("/agenda", {

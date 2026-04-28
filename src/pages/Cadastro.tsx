@@ -56,7 +56,7 @@ export default function Cadastro() {
           <Button
             variant="ghost"
             onClick={() => navigate(-1)}
-            className="p-0 h-auto hover:bg-transparent" // Remove paddings extras do botão
+            className="p-0 h-auto cursor-pointer"
           >
             <ArrowLeft className="size-6" />
           </Button>
@@ -124,7 +124,7 @@ export default function Cadastro() {
 
           <Button
             type="submit"
-            className="w-full bg-pink-400 hover:bg-pink-500 text-white rounded-xl h-12 mt-4"
+            className="w-full bg-pink-400 hover:bg-pink-500 text-white rounded-xl h-12 mt-4 cursor-pointer"
           >
             Confirmar
           </Button>

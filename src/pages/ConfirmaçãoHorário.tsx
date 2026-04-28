@@ -44,7 +44,7 @@ export default function ConfirmaçãoHorário() {
           >
             <ArrowLeft />
           </Button>
-          <h2 className="text-xl font-semibold leading-tight">
+          <h2 className="text-xl font-semibold leading-tight text-left">
             Confirme os detalhes do seu horário
           </h2>
         </header>

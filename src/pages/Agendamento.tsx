@@ -102,7 +102,7 @@ export default function Agenda() {
           <h3 className="font-bold text-lg text-foreground">
             1. Escolha o dia
           </h3>
-          <div className="flex justify-center p-4 bg-white/60 rounded-2xl border border-border shadow-sm">
+          <div className="flex justify-center p-4">
             <Calendar
               mode="single"
               selected={date}
