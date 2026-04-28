@@ -52,11 +52,18 @@ export default function Cadastro() {
   return (
     <div className="min-h-screen p-6 flex flex-col items-center justify-center">
       <div className="w-full max-w-md flex flex-col gap-6">
-        <header className="flex items-center gap-3">
-          <Button variant="ghost" onClick={() => navigate(-1)}>
-            <ArrowLeft />
+        <header className="flex items-start gap-3 w-full">
+          <Button
+            variant="ghost"
+            onClick={() => navigate(-1)}
+            className="p-0 h-auto hover:bg-transparent" // Remove paddings extras do botão
+          >
+            <ArrowLeft className="size-6" />
           </Button>
-          <h2 className="text-xl font-semibold">Confirmar Cadastro</h2>
+
+          <h2 className="text-xl font-semibold leading-tight text-left">
+            Para confirmar seu horário, precisamos de algumas informações
+          </h2>
         </header>
 
         {/* 5. O formulário agora usa o handleSubmit do hook form */}

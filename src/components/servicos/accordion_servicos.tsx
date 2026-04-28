@@ -39,7 +39,7 @@ export function AccordionServicos() {
   const navigate = useNavigate();
 
   return (
-    <Card className="bg-white/60 backdrop-blur-lg shadow-xl w-full max-w-sm">
+    <Card className="bg-white/60 backdrop-blur-lg shadow-xl w-full max-w-lg">
       <CardHeader>
         <CardTitle>Menu de Serviços</CardTitle>
       </CardHeader>
@@ -70,7 +70,7 @@ export function AccordionServicos() {
                     <p>Ver horários disponíveis</p>
                   </Button>
 
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-muted-foreground font-bold">
                     Duração média: {item.duracao} min
                   </p>
                 </div>

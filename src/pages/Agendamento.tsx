@@ -67,100 +67,99 @@ export default function Agenda() {
 
   return (
     <div className="min-h-screen px-6 py-10 flex justify-center">
-      <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-10">
-        {/* ================= LEFT ================= */}
+      {/* Container principal agora é uma coluna única e estreita */}
+      <div className="w-full max-w-md flex flex-col gap-8">
+        {/* HEADER E RESUMO DO SERVIÇO */}
         <div className="flex flex-col gap-6">
           <header className="flex items-center gap-3">
-            <Button variant="ghost" onClick={() => navigate(-1)}>
+            <Button
+              variant="ghost"
+              onClick={() => navigate(-1)}
+              className="p-0 h-auto cursor-pointer"
+            >
               <ArrowLeft />
             </Button>
-
-            <h1 className="text-2xl font-semibold">Agendamento</h1>
+            <h2 className="font-semibold text-foreground">
+              Horários disponíveis
+            </h2>
           </header>
 
-          <div className="rounded-2xl p-6 bg-white/60 backdrop-blur shadow-sm">
-            <p className="text-sm text-muted-foreground">Serviço selecionado</p>
-
-            <h2 className="text-2xl font-bold text-pink-500 mt-1">
+          <div className="rounded-2xl p-6 bg-white/60 border border-border shadow-sm">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">
+              Serviço selecionado:
+            </p>
+            <h2 className="text-2xl font-bold text-fuchsia-800 mt-1">
               {servico.nome}
             </h2>
-
-            <p className="text-sm text-muted-foreground mt-2">
+            <p className="text-sm mt-2 font-medium">
               R$ {servico.preco} • {servico.duracao} min
             </p>
           </div>
         </div>
 
-        {/* ================= RIGHT ================= */}
-        <div className="flex flex-col gap-8">
-          {/* CALENDÁRIO */}
-          <div>
-            <h3 className="font-medium mb-3">Escolha o dia</h3>
+        {/* CALENDÁRIO */}
+        <section className="space-y-4">
+          <h3 className="font-bold text-lg text-foreground">
+            1. Escolha o dia
+          </h3>
+          <div className="flex justify-center p-4 bg-white/60 rounded-2xl border border-border shadow-sm">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={setDate}
+              captionLayout="dropdown"
+              disabled={{ before: new Date() }}
+              className="rounded-lg"
+            />
+          </div>
+          {diaSelecionado && (
+            <p className="text-sm font-medium text-center">
+              Data selecionada: {diaSelecionado}/{mesSelecionado}
+            </p>
+          )}
+        </section>
 
-            <div className="flex justify-center">
-              <Calendar
-                mode="single"
-                selected={date}
-                onSelect={setDate}
-                captionLayout="dropdown"
-                disabled={{ before: new Date() }}
-                className="rounded-lg bordered bg-white/60 backdrop-blur shadow-sm"
-              />
-            </div>
-
-            {diaSelecionado && (
-              <p className="text-sm text-muted-foreground pt-4 text-center">
-                Data selecionada: {diaSelecionado}/{mesSelecionado}
+        {/* HORÁRIOS */}
+        <section className="space-y-4">
+          <h3 className="font-bold text-lg text-foreground">
+            2. Escolha o horário
+          </h3>
+          <div className="grid grid-cols-3 gap-3">
+            {horarios.length === 0 && diaSelecionado && (
+              <p className="col-span-3 text-sm text-center py-4 text-muted-foreground bg-muted/20 rounded-xl border border-dashed">
+                Nenhum horário disponível para esse dia
               </p>
             )}
+
+            {horarios.map((hora) => {
+              const ativo = horarioSelecionado === hora;
+              return (
+                <Button
+                  key={hora}
+                  onClick={() => setHorarioSelecionado(hora)}
+                  variant="outline"
+                  className={`rounded-xl cursor-pointer h-12 transition-all ${
+                    ativo
+                      ? "bg-pink-400 text-white border-pink-400 shadow-md scale-105"
+                      : "hover:border-pink-300"
+                  }`}
+                >
+                  {hora}
+                </Button>
+              );
+            })}
           </div>
+        </section>
 
-          {/* HORÁRIOS */}
-          <div>
-            <h3 className="font-medium mb-3">Horários disponíveis</h3>
-
-            <div className="grid grid-cols-3 gap-3">
-              {horarios.length === 0 && diaSelecionado && (
-                <p className="col-span-3 text-sm text-muted-foreground">
-                  Nenhum horário disponível para esse dia
-                </p>
-              )}
-
-              {horarios.map((hora) => {
-                const ativo = horarioSelecionado === hora;
-
-                return (
-                  <Button
-                    key={hora}
-                    onClick={() => setHorarioSelecionado(hora)}
-                    variant="outline"
-                    className={`
-                      rounded-xl transition
-                      ${ativo ? "bg-pink-400 text-white border-pink-400" : ""}
-                    `}
-                  >
-                    {hora}
-                  </Button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* BOTÃO */}
-          <div className="mt-auto">
-            <Button
-              disabled={!diaSelecionado || !horarioSelecionado}
-              onClick={handleConfirmar}
-              className="
-                w-full
-                bg-pink-400 hover:bg-pink-500
-                text-white rounded-xl
-                disabled:opacity-50
-              "
-            >
-              Confirmar agendamento
-            </Button>
-          </div>
+        {/* BOTÃO FINAL */}
+        <div className="pt-4">
+          <Button
+            disabled={!diaSelecionado || !horarioSelecionado}
+            onClick={handleConfirmar}
+            className="w-full h-14 cursor-pointer bg-pink-400 hover:bg-pink-500 text-white text-lg font-bold rounded-2xl shadow-lg disabled:opacity-30 transition-all active:scale-95"
+          >
+            Próximo passo
+          </Button>
         </div>
       </div>
     </div>
