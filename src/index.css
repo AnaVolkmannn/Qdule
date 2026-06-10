@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource/cal-sans";
+@import "@fontsource/montserrat";
 @import "@fontsource/anek-kannada";
 
 /* =========================
@@ -13,24 +13,22 @@
   --bg: #ffffff;
   --border: oklch(0.922 0 0);
   --code-bg: #ffffff;
-  --font-heading: "Cal Sans", sans-serif;
+  --font-heading: "Montserrat", sans-serif;
   --font-body: "Anek Kannada", sans-serif;
   --font-mono: ui-monospace, Consolas, monospace;
-
-  letter-spacing: 0.2px;
-
-  /* DEGRADE GLOBAL */
-  --bg-gradient: linear-gradient(90deg, #e6a1b2 0%, #fac8c8 50%, #e6a1b2 100%);
+  --letter-spacing: 0.2px;
 
   /* shadcn tokens */
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --background: #f7f3ed;
+  --foreground: #a56c6c;
 
-  --primary: oklch(81% 0.117 11.638);
-  --secondary: oklch(0.97 0 0);
+  --primary: #ffd7d7;
+  --secondary: #f3b6b6;
+  --button: #dba1a2;
+  --buttonhover: #efd8d6;
   --muted: oklch(0.97 0 0);
-  --accent: oklch(0.97 0 0);
-  --ring: oklch(79.946% 0.09278 13.413);
+  --accent: #a56c6c;
+  --ring: #c38888;
 }
 
 /* =========================
@@ -39,7 +37,7 @@
 html {
   min-height: 100vh;
   font-family: var(--font-body);
-  background: var(--bg-gradient);
+  background: var(--bg-background);
 }
 
 body {
@@ -103,6 +101,8 @@ code {
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-ring: var(--ring);
+  --color-button: var(--button);
+  --color-buttonhover: var(--buttonhover);
 }
 
 /* =========================
@@ -113,11 +113,4 @@ code {
     border-color: var(--border);
     outline-color: var(--ring);
   }
-}
-
-/* =========================
-   COMPONENTE (igual ao da imagem)
-========================= */
-.card-gradient {
-  background: linear-gradient(90deg, #e3a8a1 0%, #f7afcf 50%, #e29ec4 100%);
 }

@@ -46,7 +46,7 @@ export default function Cadastro() {
       .replace(/^(\d{2})(\d)/g, "($1) $2")
       .replace(/(\d{5})(\d)/, "$1-$2")
       .substring(0, 15);
-    setValue("celular", formatado); // Atualiza o valor no hook form
+    setValue("celular", formatado);
   };
 
   return (
@@ -112,7 +112,7 @@ export default function Cadastro() {
               className="bg-white"
               type="tel"
               {...register("celular", { required: "Celular é obrigatório" })}
-              onChange={handleCelularChange} // Mantém a tua máscara
+              onChange={handleCelularChange}
               placeholder="(47) 99999-9999"
             />
             {errors.celular && (
@@ -124,9 +124,9 @@ export default function Cadastro() {
 
           <Button
             type="submit"
-            className="w-full bg-rose-400 hover:bg-rose-500 text-white rounded-xl h-12 mt-4 cursor-pointer"
+            className="w-full bg-button hover:bg-buttonhover text-white rounded-xl h-12 mt-4 cursor-pointer"
           >
-            Confirmar
+            Confirma
           </Button>
         </form>
       </div>

@@ -17,36 +17,192 @@ export interface Servico {
 const items: Servico[] = [
   {
     id: 1,
-    nome: "Limpeza de pele",
-    descricao: "Limpeza profunda com extração e hidratação intensiva.",
+    nome: "Lash Lifting - Cílios",
+    descricao:
+      "Procedimento que curva, alonga e realça os cílios naturais sem necessidade de extensão.",
     duracao: 60,
-    preco: 150,
-    imagem: "https://placehold.co/600x400/FFC0CB/FFFFFF?text=Limpeza+de+pele",
+    preco: 120,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Limpeza+de+pele",
   },
   {
     id: 2,
-    nome: "Massagem relaxante",
-    descricao: "Massagem com óleos essenciais para aliviar tensões.",
+    nome: "Microagulhamento Facial",
+    descricao:
+      "Procedimento que estimula a produção de colágeno e elastina, melhorando a textura e aparência da pele.",
     duracao: 90,
-    preco: 200,
-    imagem: "https://placehold.co/600x400/FFC0CB/FFFFFF?text=Massagem",
+    preco: 250,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Massagem",
   },
   {
     id: 3,
-    nome: "Sobrancelha",
-    descricao: "Design e remoção dos fios com pinça e linha.",
+    nome: "Design de sobrancelha",
+    descricao:
+      "Procedimento que valoriza o olhar por meio do design personalizado de sobrancelhas",
     duracao: 30,
     preco: 50,
-    imagem: "https://placehold.co/600x400/FFC0CB/FFFFFF?text=Sobrancelha",
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha",
   },
   {
     id: 4,
-    nome: "Sobrancelha Luxo",
+    nome: "Ledterapia",
     descricao:
-      "Design premium com henna e acabamento perfeito.",
+      "Luz terapêutica que estimula a regeneração celular, melhora a circulação e reduz inflamações, promovendo uma pele mais saudável e rejuvenescida.",
     duracao: 45,
-    preco: 75,
-    imagem: "https://placehold.co/600x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+    preco: 60,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 5,
+    nome: "Limpeza de pele",
+    descricao:
+      "Procedimento que remove impurezas e células mortas da pele, promovendo uma pele mais saudável e radiante.",
+    duracao: 45,
+    preco: 150,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 6,
+    nome: "Drenagem Linfática",
+    descricao:
+      "Procedimento que estimula a circulação linfática, reduzindo inchaços e promovendo uma pele mais saudável e rejuvenescida.",
+    duracao: 45,
+    preco: 100,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 7,
+    nome: "Drenagem Linfática Gestacional",
+    descricao:
+      "Técnica suave e adaptada para gestantes, indicada a partir do segundo trimestre com liberação médica, que estimula a circulação linfática, aliviando inchaços e promovendo bem-estar durante a gravidez.",
+    duracao: 45,
+    preco: 100,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 8,
+    nome: "Estrias - Derma Pen + Endermoterapia",
+    descricao:
+      "Tratamento combinado que aborda a aparência das estrias, promovendo uma pele mais uniforme e renovada.",
+    duracao: 45,
+    preco: 100,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 9,
+    nome: "Hidratação facial",
+    descricao:
+      "Repõe a água e nutrientes essenciais para a pele, promovendo uma aparência mais saudável, suave e radiante.",
+    duracao: 45,
+    preco: 65,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 10,
+    nome: "Ultrassom terapêutico 1 - 3MHz",
+    descricao:
+      "Equipamento de ultrassom terapêutico com frequ^Çencias de 1MHz e 3MHz, utilizado para tratamentos estéticos e terapêuticos, promovendo benefícios como melhora da circulação, redução de inchaços e estímulo à regeneração celular.",
+    duracao: 45,
+    preco: 65,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 11,
+    nome: "Biompedância",
+    descricao:
+      "Analisa a composição corporal por meio de corrente elétrica de baixa intensidade. Exame não-invasivo.",
+    duracao: 40,
+    preco: 80,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 12,
+    nome: "Escalda pés",
+    descricao:
+      "Terapia que combina água morna, ervas e sais terapêuticos para promover relaxamento, alívio do estresse e melhora da circulação nos pés.",
+    duracao: 45,
+    preco: 55,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 13,
+    nome: "Lipo Enzimática - Intradermoterapia Pressurizada",
+    descricao:
+      "Dispositivo de alta pressão que promove a permeação de ativos na pele sem o uso de agulhas. Indicado para procedimentos como skin booster, revitalização...",
+    duracao: 45,
+    preco: 250,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 14,
+    nome: "Massagem modeladora",
+    descricao:
+      "Técnica com manobras intensas e firmes que visam modelar o corpo, reduzir medidas e melhorar a circulação, promovendo uma silhueta mais definida e tonificada.",
+    duracao: 45,
+    preco: 100,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 15,
+    nome: "Detox Corporal",
+    descricao:
+      "Tratamento desintoxicante que associa o poder purificante da argila verde ao calor da manta térmica, auxiliando na eliminação de toxinas, redução de medidas e melhora da aparência da pele.",
+    duracao: 45,
+    preco: 65,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 16,
+    nome: "Liberação Miofascial",
+    descricao:
+      "Técnica manual que visa liberar tensões e restrições no tecido muscular e fascial, promovendo alívio da dor, melhora da mobilidade e bem-estar geral.",
+    duracao: 45,
+    preco: 130,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 17,
+    nome: "Massagem Relaxante Muscular",
+    descricao:
+      "Técnica terapêutica que utiliza manobras suaves e rítmicas para promover relaxamento, alívio do estresse e redução da tensão muscular, proporcionando uma sensação de bem-estar e tranquilidade.",
+    duracao: 45,
+    preco: 100,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 18,
+    nome: "Ventosaterapia com Relaxante",
+    descricao:
+      "Técnica terapêutica que utiliza ventosas para criar sucção na pele, promovendo relaxamento muscular, melhora da circulação e alívio de tensões, potencializada com o uso de óleos relaxantes.",
+    duracao: 45,
+    preco: 150,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 19,
+    nome: "Hidra Pluss Labial",
+    descricao:
+      "Tratamento labial que combina hidratação profunda, nutrição e revitalização, promovendo lábios mais suaves, volumosos e com aparência rejuvenescida.",
+    duracao: 45,
+    preco: 110,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 20,
+    nome: "Pós-operatório",
+    descricao:
+      "Técnica de drenagem linfática manual especializada para acelerar o metabolismo para a recuperação pós-cirúrgica, reduzindo inchaços, hematomas e promovendo uma cicatrização mais eficiente.",
+    duracao: 45,
+    preco: 0,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
+  },
+  {
+    id: 21,
+    nome: "Dermaplaning",
+    descricao:
+      "Esfoliação mecânica segura que remove células mortas e pelos finos do rosto, deixando a pele extremamente lisa e radiante, além de potencializar a absorção de produtos e proporcionar um acabamento impecável para a maquiagem.",
+    duracao: 45,
+    preco: 120,
+    imagem: "https://placehold.co/500x400/FFC0CB/FFFFFF?text=Sobrancelha+Luxo",
   },
 ];
 
@@ -59,7 +215,10 @@ export function CardServicos() {
   useEffect(() => {
     if (servicoAtivo && agendaRef.current) {
       setTimeout(() => {
-        agendaRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+        agendaRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
       }, 80); // aguarda o CSS transition iniciar
     }
   }, [servicoAtivo]);
@@ -88,9 +247,7 @@ export function CardServicos() {
             <Card
               key={item.id}
               className={`overflow-hidden bg-white/60 backdrop-blur-lg shadow-xl border h-full flex flex-col p-0 rounded-t-xl transition-all duration-300 ${
-                ativo
-                  ? "border-rose-400 ring-2 ring-rose-300"
-                  : "border-0"
+                ativo ? "border-accent ring-2 ring-red-300" : "border-0"
               }`}
             >
               {/* Imagem */}
@@ -106,9 +263,6 @@ export function CardServicos() {
               <CardContent className="p-5 flex flex-col flex-1 gap-4">
                 <div className="flex items-start justify-between gap-4">
                   <h2 className="text-xl font-semibold">{item.nome}</h2>
-                  <span className="text-rose-500 font-bold text-lg whitespace-nowrap">
-                    R$ {item.preco}
-                  </span>
                 </div>
 
                 <div className="flex-1">
@@ -117,15 +271,21 @@ export function CardServicos() {
                   </p>
                 </div>
 
-                <p className="text-sm font-medium">
-                  Duração média: {item.duracao} min
-                </p>
+                <div className="flex items-center justify-between">
+                  <p className="text-sm bg-accent border-ring text-white rounded-full px-3 py-1">
+                    {item.duracao} min
+                  </p>
+
+                  <span className="text-ring font-bold text-lg whitespace-nowrap">
+                    R$ {item.preco}
+                  </span>
+                </div>
 
                 <Button
                   className={`cursor-pointer mt-auto w-full border-0 rounded-lg text-white transition-colors ${
                     ativo
-                      ? "bg-rose-600 hover:bg-rose-700"
-                      : "bg-rose-400 hover:bg-rose-500"
+                      ? "bg-button hover:bg-buttonhover"
+                      : "bg-button hover:bg-buttonhover"
                   }`}
                   onClick={() => handleVerHorarios(item)}
                 >

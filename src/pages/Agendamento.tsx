@@ -34,12 +34,16 @@ export function AgendaInline({ servico, onFechar }: AgendaInlineProps) {
   const navigate = useNavigate();
 
   const [date, setDate] = useState<Date | undefined>(new Date());
-  const [horarioSelecionado, setHorarioSelecionado] = useState<string | null>(null);
+  const [horarioSelecionado, setHorarioSelecionado] = useState<string | null>(
+    null,
+  );
   const [modalAberto, setModalAberto] = useState(false);
 
   // Derived — dia e mês formatados
   const diaSelecionado = date ? String(date.getDate()).padStart(2, "0") : null;
-  const mesSelecionado = date ? String(date.getMonth() + 1).padStart(2, "0") : null;
+  const mesSelecionado = date
+    ? String(date.getMonth() + 1).padStart(2, "0")
+    : null;
   const diaNum = date ? date.getDate() : null;
   const horarios: string[] = diaNum ? (mockHorarios[diaNum] ?? []) : [];
 
@@ -85,15 +89,14 @@ export function AgendaInline({ servico, onFechar }: AgendaInlineProps) {
 
   // ─── render ────────────────────────────────────────────────────────────────
   return (
-    <div className="w-full rounded-2xl bg-white/10 backdrop-blur-lg border border-rose-100 shadow-xl p-6 md:p-8">
-
+    <div className="w-full rounded-2xl bg-white/10 backdrop-blur-lg border border-red-100 shadow-xl p-6 md:p-8">
       {/* Cabeçalho da agenda */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
             onClick={onFechar}
-            className="p-0 h-auto cursor-pointer text-rose-400 hover:text-rose-600"
+            className="p-0 h-auto cursor-pointer text-red-400 hover:text-red-600"
           >
             <ArrowLeft className="w-5 h-5" />
           </Button>
@@ -104,8 +107,8 @@ export function AgendaInline({ servico, onFechar }: AgendaInlineProps) {
       </div>
 
       {/* Badge do serviço selecionado */}
-      <div className="rounded-2xl p-5 bg-white/80 border border-rose-100 shadow-sm mb-8">
-        <p className="text-xs uppercase tracking-wider text-rose-400 font-semibold">
+      <div className="rounded-2xl p-5 bg-white/80 border border-red-100 shadow-sm mb-8">
+        <p className="text-xs uppercase tracking-wider text-red-400 font-semibold">
           Serviço selecionado
         </p>
         <h2 className="text-2xl font-bold mt-1">{servico.nome}</h2>
@@ -118,28 +121,31 @@ export function AgendaInline({ servico, onFechar }: AgendaInlineProps) {
         {/* 1. Calendário */}
         <section className="space-y-4 max-w-sm mx-auto w-full">
           <h3 className="font-bold text-base text-foreground flex items-center gap-2">
-            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-rose-400 text-white text-xs font-bold">
+            <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-accent text-white text-xs font-bold">
               1
             </span>
             Escolha o dia
           </h3>
-          
+
           {/* AJUSTE AQUI: w-fit faz o background murchar ao tamanho exato do calendário */}
-          <div className="w-fit mx-auto p-3 bg-white/70 rounded-xl border border-rose-50 shadow-sm">
+          <div className="w-fit mx-auto p-3 bg-white/70 rounded-xl border border-red-50 shadow-sm">
             <Calendar
               mode="single"
               selected={date}
               onSelect={handleSelectDate}
               captionLayout="dropdown"
-              disabled={{ before: new Date(), after: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000) }}
+              disabled={{
+                before: new Date(),
+                after: new Date(Date.now() + 60 * 24 * 60 * 60 * 1000),
+              }}
               className="rounded-lg"
             />
           </div>
-          
+
           {diaSelecionado && (
             <p className="text-sm font-medium text-center text-muted-foreground">
               Data selecionada:{" "}
-              <span className="text-rose-500 font-semibold">
+              <span className="text-accent font-semibold">
                 {diaSelecionado}/{mesSelecionado}
               </span>
             </p>
@@ -150,7 +156,7 @@ export function AgendaInline({ servico, onFechar }: AgendaInlineProps) {
         <section className="space-y-6 flex flex-col">
           <div className="space-y-4">
             <h3 className="font-bold text-base text-foreground flex items-center gap-2">
-              <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-rose-400 text-white text-xs font-bold">
+              <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-accent text-white text-xs font-bold">
                 2
               </span>
               Escolha o horário
@@ -178,8 +184,8 @@ export function AgendaInline({ servico, onFechar }: AgendaInlineProps) {
                     variant="outline"
                     className={`rounded-xl cursor-pointer h-12 transition-all font-semibold ${
                       ativo
-                        ? "bg-rose-400 text-white border-rose-400 scale-105 hover:bg-rose-400"
-                        : "hover:border-rose-300 hover:text-rose-500"
+                        ? "bg-button hover:bg-buttonhover text-white"
+                        : "bg-button hover:bg-buttonhover"
                     }`}
                   >
                     {hora}
@@ -193,7 +199,7 @@ export function AgendaInline({ servico, onFechar }: AgendaInlineProps) {
           <div className="mt-auto space-y-4">
             {/* Resumo da seleção */}
             {diaSelecionado && horarioSelecionado && (
-              <div className="rounded-xl px-4 py-3 bg-rose-50 border border-rose-100 flex items-center justify-center gap-2 text-rose-600">
+              <div className="rounded-xl px-4 py-3 bg-red-50 border border-red-100 flex items-center justify-center gap-2 text-red-600">
                 <span className="font-semibold text-sm">
                   {diaSelecionado}/{mesSelecionado}
                 </span>
@@ -207,7 +213,7 @@ export function AgendaInline({ servico, onFechar }: AgendaInlineProps) {
               <DialogTrigger asChild>
                 <Button
                   disabled={!diaSelecionado || !horarioSelecionado}
-                  className="w-full h-14 cursor-pointer bg-rose-400 hover:bg-rose-500 text-white text-base font-bold rounded-2xl shadow-lg disabled:opacity-50 transition-all active:scale-95"
+                  className="w-full h-14 cursor-pointer bg-button hover:bg-buttonhover text-white text-base font-bold rounded-2xl shadow-lg disabled:opacity-50 transition-all active:scale-95"
                 >
                   Próximo passo
                 </Button>
@@ -216,21 +222,27 @@ export function AgendaInline({ servico, onFechar }: AgendaInlineProps) {
               <DialogContent className="w-[95%] sm:max-w-md rounded-2xl bg-white/90 backdrop-blur-md border border-white/20 p-6 shadow-2xl">
                 <DialogHeader>
                   <DialogTitle className="text-xl font-semibold leading-tight text-left">
-                    Para confirmar seu horário, precisamos de algumas informações
+                    Para confirmar seu horário, precisamos de algumas
+                    informações
                   </DialogTitle>
                 </DialogHeader>
 
                 {/* Resumo no topo do modal */}
-                <div className="rounded-xl px-4 flex flex-row items-center justify-center gap-2 bg-rose-100 py-2 my-2 text-rose-700">
+                <div className="rounded-xl px-4 flex flex-row items-center justify-center gap-2 bg-red-100 py-2 my-2 text-red-700">
                   <span className="font-semibold text-sm">
                     {diaSelecionado}/{mesSelecionado}
                   </span>
                   <span className="text-sm font-semibold opacity-60">|</span>
-                  <span className="font-bold text-sm">{horarioSelecionado}h</span>
+                  <span className="font-bold text-sm">
+                    {horarioSelecionado}h
+                  </span>
                 </div>
 
                 {/* Formulário */}
-                <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4 mt-2">
+                <form
+                  onSubmit={handleSubmit(onSubmit)}
+                  className="grid gap-4 mt-2"
+                >
                   <div className="grid gap-2">
                     <Label className="font-bold text-sm">Nome Completo</Label>
                     <Input
@@ -289,7 +301,7 @@ export function AgendaInline({ servico, onFechar }: AgendaInlineProps) {
 
                   <Button
                     type="submit"
-                    className="w-full bg-rose-400 hover:bg-rose-500 text-white rounded-xl h-12 mt-2 cursor-pointer"
+                    className="w-full bg-red-400 hover:bg-red-500 text-white rounded-xl h-12 mt-2 cursor-pointer"
                   >
                     Confirmar Agendamento
                   </Button>
