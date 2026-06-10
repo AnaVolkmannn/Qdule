@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { AgendaInline } from "@/pages/Agendamento";
+import { AgendaInline } from "@/pages/AgendaInline";
 
 // ─── tipos ────────────────────────────────────────────────────────────────────
 export interface Servico {
