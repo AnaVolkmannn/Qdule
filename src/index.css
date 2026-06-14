@@ -17,7 +17,11 @@
   --font-body: "Anek Kannada", sans-serif;
   --font-mono: ui-monospace, Consolas, monospace;
   --letter-spacing: 0.2px;
-
+  --popover: #ffffff;
+  --popover-foreground: #08060d;
+  --card: #ffffff;
+  --card-foreground: #08060d;
+  --muted-foreground: #a56c6c;
   /* shadcn tokens */
   --background: #f7f3ed;
   --foreground: #a56c6c;
@@ -103,6 +107,11 @@ code {
   --color-ring: var(--ring);
   --color-button: var(--button);
   --color-buttonhover: var(--buttonhover);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted-foreground: var(--muted-foreground);
 }
 
 /* =========================
@@ -112,5 +121,20 @@ code {
   * {
     border-color: var(--border);
     outline-color: var(--ring);
+
+    button,
+    a,
+    [role="button"] {
+      cursor: pointer;
+    }
+
+    input,
+    textarea {
+      cursor: text;
+    }
+
+    :disabled {
+      cursor: not-allowed;
+    }
   }
 }

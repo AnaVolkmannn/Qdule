@@ -49,7 +49,7 @@ export function Sidebar({ current, onChange }: SidebarProps) {
             "flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors text-left w-full",
             current === item.id
               ? "bg-primary/10 text-primary font-medium"
-              : "text-muted-foreground hover:bg-muted hover:text-foreground",
+              : "text-white hover:bg-muted hover:text-foreground",
           )}
         >
           {item.icon}
@@ -65,9 +65,7 @@ export function Sidebar({ current, onChange }: SidebarProps) {
       <aside className="hidden md:flex w-52 min-w-208px border-r border-border bg-accent flex-col">
         <div className="px-4 py-5">
           <p className="font-semibold text-sm text-primary">Hanna Kupas</p>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Painel de gestão
-          </p>
+          <p className="text-xs text-white mt-0.5">Painel de gestão</p>
         </div>
         {navContent}
       </aside>

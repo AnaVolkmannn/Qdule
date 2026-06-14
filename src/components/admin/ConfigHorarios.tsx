@@ -3,7 +3,6 @@ import { Plus, Trash2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Calendar } from "@/components/ui/calendar";
-import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -142,9 +141,9 @@ function SectionCard({
   children: React.ReactNode;
 }) {
   return (
-    <div className="border border-border rounded-xl overflow-hidden bg-background">
-      <div className="px-4 py-3 bg-muted/40 border-b border-border">
-        <p className="text-sm font-medium text-foreground">{title}</p>
+    <div className="border border-border rounded-xl overflow-hidden">
+      <div className="px-4 py-3 border-b border-border bg-primary/40">
+        <h2 className="text-sm font-medium text-foreground">{title}</h2>
         {description && (
           <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
         )}
@@ -253,15 +252,6 @@ export function ConfigHorarios() {
 
   return (
     <div className="p-6 flex flex-col gap-6">
-      <div>
-        <h2 className="text-lg font-semibold text-foreground">
-          Horários de atendimento
-        </h2>
-        <p className="text-sm text-muted-foreground mt-0.5">
-          Configure sua agenda padrão e exceções pontuais por data.
-        </p>
-      </div>
-
       {/* Horário padrão */}
       <SectionCard
         title="Horário padrão"
@@ -283,7 +273,7 @@ export function ConfigHorarios() {
                         "text-sm w-8 font-medium",
                         config.ativo
                           ? "text-foreground"
-                          : "text-muted-foreground",
+                          : "text-accent line-through",
                       )}
                     >
                       {dia}
@@ -299,7 +289,7 @@ export function ConfigHorarios() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-xs gap-1 h-7 text-muted-foreground"
+                      className="text-xs gap-1 h-7 text-muted-foreground bg-primary/80"
                       onClick={() => addSlot(dia)}
                     >
                       <Plus className="w-3 h-3" /> Intervalo
@@ -352,20 +342,14 @@ export function ConfigHorarios() {
                       {formatDate(exc.date)}
                     </p>
                     {exc.tipo === "folga" ? (
-                      <Badge
-                        variant="secondary"
-                        className="mt-1 bg-red-100 text-red-800 hover:bg-red-100"
-                      >
+                      <span className="mt-1 inline-block text-xs font-medium px-2 py-0.5 rounded-md bg-red-100 text-red-800">
                         Folga
-                      </Badge>
+                      </span>
                     ) : (
                       <div className="flex flex-col gap-0.5 mt-1">
-                        <Badge
-                          variant="secondary"
-                          className="w-fit bg-blue-100 text-blue-800 hover:bg-blue-100"
-                        >
+                        <span className="inline-block text-xs font-medium px-2 py-0.5 rounded-md bg-blue-100 text-blue-800">
                           Horário especial
-                        </Badge>
+                        </span>
                         {exc.slots.map((s, i) => (
                           <p key={i} className="text-xs text-muted-foreground">
                             {s.inicio} – {s.fim}
@@ -438,7 +422,7 @@ export function ConfigHorarios() {
                     "flex-1 py-2 rounded-lg border text-sm transition-colors",
                     excTipo === "folga"
                       ? "border-primary bg-primary/10 text-primary font-medium"
-                      : "border-border text-muted-foreground hover:bg-muted",
+                      : "border-border text-accent bg-accenthover:bg-muted",
                   )}
                 >
                   Folga
@@ -480,7 +464,7 @@ export function ConfigHorarios() {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="w-fit gap-1 text-xs text-muted-foreground"
+                  className="w-fit gap-1 text-xs text-muted-foreground bg-primary/80"
                   onClick={() =>
                     setExcSlots([
                       ...excSlots,

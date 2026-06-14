@@ -14,7 +14,7 @@ function MetricCard({
   sub: string;
 }) {
   return (
-    <div className="bg-muted/50 rounded-xl p-4">
+    <div className="bg-accent/40 rounded-xl p-4">
       <p className="text-xs text-muted-foreground mb-1">{label}</p>
       <p className="text-2xl font-semibold text-foreground">{value}</p>
       <p className="text-xs text-muted-foreground mt-1">{sub}</p>
@@ -35,7 +35,7 @@ export function Acompanhamento() {
     date?.getFullYear() === today.getFullYear();
 
   const dayLabel = isToday
-    ? "Hoje"
+    ? "Para hoje"
     : date
       ? date.toLocaleDateString("pt-BR", {
           weekday: "long",
@@ -63,7 +63,7 @@ export function Acompanhamento() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         <MetricCard
           label="Hoje"
           value={String(todayAgendamentos.length)}
@@ -75,41 +75,53 @@ export function Acompanhamento() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Calendário */}
-        <div className="border border-border rounded-xl overflow-hidden bg-background">
-          <div className="px-4 py-3 border-b border-border">
+        <div className="border border-border rounded-xl overflow-hidden">
+          <div className="px-4 py-3 border-b border-border bg-primary/40">
             <p className="text-sm font-medium text-foreground">Calendário</p>
-            <p className="text-xs text-muted-foreground mt-0.5">
-              Dias com ponto têm agendamentos
-            </p>
           </div>
-          <div className="p-3 flex justify-center">
+
+          <div className="p-2 sm:p-3">
             <Calendar
               mode="single"
               selected={date}
               onSelect={setDate}
               locale={ptBR}
               captionLayout="dropdown"
+              className="w-full"
               modifiers={{
                 hasEvents: (d) => daysWithEvents.includes(d.getDate()),
               }}
               modifiersClassNames={{
                 hasEvents:
-                  "relative after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:rounded-full after:bg-primary",
+                  "relative after:absolute after:bottom-1 after:left-1/2 after:-translate-x-1/2 after:w-1 after:h-1 after:rounded-full after:bg-ring",
+              }}
+              classNames={{
+                month: "w-full",
+                table: "w-full",
+                day: `
+                  h-10 w-10
+                  sm:h-12 sm:w-12
+                  md:h-14 md:w-14
+                  text-sm sm:text-base
+                `,
               }}
             />
+          </div>
+          <div className="px-4 py-3 border-t border-border bg-muted/40">
+            <p className="text-sm text-muted-foreground">
+              *Dias marcados possuem pelo menos 1 agendamento.
+            </p>
           </div>
         </div>
 
         {/* Agenda do dia */}
-        <div className="border border-border rounded-xl overflow-hidden bg-background flex flex-col">
-          <div className="px-4 py-3 border-b border-border">
+        <div className="border border-border rounded-xl overflow-hidden flex flex-col">
+          <div className="px-4 py-3 border-b border-border bg-primary/40">
             <p className="text-sm font-medium text-foreground capitalize">
               {dayLabel}
             </p>
             <p className="text-xs text-muted-foreground mt-0.5">
-              {agendamentos.length === 0
-                ? "Nenhum agendamento"
-                : `${agendamentos.length} agendamento${agendamentos.length > 1 ? "s" : ""}`}
+              {agendamentos.length === 0 ? "Nenhum agendamento" : ""}
             </p>
           </div>
 
