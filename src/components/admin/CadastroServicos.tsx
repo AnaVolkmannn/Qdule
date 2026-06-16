@@ -1,8 +1,16 @@
-import { useState } from "react";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { useState, useRef } from "react";
+import { Pencil, Trash2, Plus, ImagePlus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -12,26 +20,70 @@ import {
 } from "@/components/ui/dialog";
 import { mockServicos, type Servico } from "@/components/admin/mockData";
 
+const CATEGORIAS = [
+  "Estética facial",
+  "Estética corporal",
+  "Massoterapia",
+  "Outros",
+];
+
+// Extended Servico type with new fields
+type ServicoCompleto = Servico & {
+  descricao?: string;
+  categoria?: string;
+  imagemUrl?: string;
+};
+
+type FormState = {
+  nome: string;
+  duracao: string;
+  preco: string;
+  descricao: string;
+  categoria: string;
+  imagemUrl: string;
+};
+
 export function Servicos() {
-  const [servicos, setServicos] = useState<Servico[]>(mockServicos);
+  const [servicos, setServicos] = useState<ServicoCompleto[]>(mockServicos);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [editing, setEditing] = useState<Servico | null>(null);
-  const [form, setForm] = useState({ nome: "", duracao: "", preco: "" });
+  const [editing, setEditing] = useState<ServicoCompleto | null>(null);
+  const [form, setForm] = useState<FormState>({
+    nome: "",
+    duracao: "",
+    preco: "",
+    descricao: "",
+    categoria: "",
+    imagemUrl: "",
+  });
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   function openNew() {
     setEditing(null);
-    setForm({ nome: "", duracao: "", preco: "" });
+    setForm({ nome: "", duracao: "", preco: "", descricao: "", categoria: "", imagemUrl: "" });
     setDialogOpen(true);
   }
 
-  function openEdit(s: Servico) {
+  function openEdit(s: ServicoCompleto) {
     setEditing(s);
     setForm({
       nome: s.nome,
       duracao: String(s.duracao),
       preco: String(s.preco),
+      descricao: s.descricao ?? "",
+      categoria: s.categoria ?? "",
+      imagemUrl: s.imagemUrl ?? "",
     });
     setDialogOpen(true);
+  }
+
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      setForm((f) => ({ ...f, imagemUrl: ev.target?.result as string }));
+    };
+    reader.readAsDataURL(file);
   }
 
   function handleSave() {
@@ -46,6 +98,9 @@ export function Servicos() {
                 nome: form.nome,
                 duracao: Number(form.duracao),
                 preco: Number(form.preco),
+                descricao: form.descricao,
+                categoria: form.categoria,
+                imagemUrl: form.imagemUrl,
               }
             : s,
         ),
@@ -59,6 +114,9 @@ export function Servicos() {
           nome: form.nome,
           duracao: Number(form.duracao),
           preco: Number(form.preco),
+          descricao: form.descricao,
+          categoria: form.categoria,
+          imagemUrl: form.imagemUrl,
         },
       ]);
     }
@@ -90,19 +148,13 @@ export function Servicos() {
 
       <div className="border border-border rounded-xl overflow-hidden bg-background">
         {/* Header */}
-        <div className="grid grid-cols-[2fr_1fr_1fr_80px] px-4 py-2.5 bg-primary/40 border-b border-border">
-          <span className="text-xs font-medium text-muted-foreground">
-            Nome
-          </span>
-          <span className="text-xs font-medium text-muted-foreground">
-            Duração
-          </span>
-          <span className="text-xs font-medium text-muted-foreground">
-            Preço
-          </span>
-          <span className="text-xs font-medium text-muted-foreground">
-            Ações
-          </span>
+        <div className="grid grid-cols-[40px_2fr_1fr_1fr_1fr_80px] px-4 py-2.5 bg-primary/40 border-b border-border">
+          <span />
+          <span className="text-xs font-medium text-muted-foreground">Nome</span>
+          <span className="text-xs font-medium text-muted-foreground">Categoria</span>
+          <span className="text-xs font-medium text-muted-foreground">Duração</span>
+          <span className="text-xs font-medium text-muted-foreground">Preço</span>
+          <span className="text-xs font-medium text-muted-foreground">Ações</span>
         </div>
 
         {servicos.length === 0 && (
@@ -114,14 +166,30 @@ export function Servicos() {
         {servicos.map((s, i) => (
           <div
             key={s.id}
-            className={`grid grid-cols-[2fr_1fr_1fr_80px] px-4 py-3 items-center hover:bg-muted/30 transition-colors ${
+            className={`grid grid-cols-[40px_2fr_1fr_1fr_1fr_80px] px-4 py-3 items-center hover:bg-muted/30 transition-colors ${
               i < servicos.length - 1 ? "border-b border-border" : ""
             }`}
           >
-            <span className="text-sm text-foreground">{s.nome}</span>
+            {/* Thumbnail */}
+            <div className="w-8 h-8 rounded-md overflow-hidden bg-muted flex items-center justify-center shrink-0">
+              {s.imagemUrl ? (
+                <img src={s.imagemUrl} alt={s.nome} className="w-full h-full object-cover" />
+              ) : (
+                <ImagePlus className="w-3.5 h-3.5 text-muted-foreground" />
+              )}
+            </div>
+
+            <div className="flex flex-col min-w-0">
+              <span className="text-sm text-foreground truncate">{s.nome}</span>
+              {s.descricao && (
+                <span className="text-xs text-muted-foreground truncate">{s.descricao}</span>
+              )}
+            </div>
+
             <span className="text-sm text-muted-foreground">
-              {s.duracao} min
+              {s.categoria || <span className="text-muted-foreground/40 italic">—</span>}
             </span>
+            <span className="text-sm text-muted-foreground">{s.duracao} min</span>
             <span className="text-sm text-muted-foreground">
               R$ {s.preco.toFixed(2).replace(".", ",")}
             </span>
@@ -148,7 +216,7 @@ export function Servicos() {
       </div>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-        <DialogContent className="max-w-sm">
+        <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle>
               {editing ? "Editar serviço" : "Novo serviço"}
@@ -156,16 +224,94 @@ export function Servicos() {
           </DialogHeader>
 
           <div className="grid gap-4 py-2">
+            {/* Image upload */}
+            <div className="grid gap-2">
+              <Label>Imagem</Label>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={handleImageChange}
+              />
+              {form.imagemUrl ? (
+                <div className="relative w-full h-36 rounded-lg overflow-hidden border border-border group">
+                  <img
+                    src={form.imagemUrl}
+                    alt="Preview"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <Button
+                      size="sm"
+                      variant="secondary"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      Trocar
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="destructive"
+                      onClick={() => setForm((f) => ({ ...f, imagemUrl: "" }))}
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current?.click()}
+                  className="w-full h-36 rounded-lg border-2 border-dashed border-border hover:border-primary/50 hover:bg-muted/30 transition-colors flex flex-col items-center justify-center gap-2 text-muted-foreground"
+                >
+                  <ImagePlus className="w-6 h-6" />
+                  <span className="text-sm">Clique para adicionar uma imagem</span>
+                </button>
+              )}
+            </div>
+
+            {/* Nome */}
             <div className="grid gap-2">
               <Label>Nome</Label>
               <Input
-                placeholder="Ex: Corte feminino"
+                placeholder="Ex: Massagem relaxante"
                 value={form.nome}
-                onChange={(e) =>
-                  setForm((f) => ({ ...f, nome: e.target.value }))
-                }
+                onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))}
               />
             </div>
+
+            {/* Descrição */}
+            <div className="grid gap-2">
+              <Label>Descrição</Label>
+              <Textarea
+                placeholder="Descreva brevemente o serviço..."
+                value={form.descricao}
+                onChange={(e) => setForm((f) => ({ ...f, descricao: e.target.value }))}
+                className="resize-none h-20"
+              />
+            </div>
+
+            {/* Categoria */}
+            <div className="grid gap-2">
+              <Label>Categoria</Label>
+              <Select
+                value={form.categoria}
+                onValueChange={(val) => setForm((f) => ({ ...f, categoria: val }))}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione uma categoria" />
+                </SelectTrigger>
+                <SelectContent>
+                  {CATEGORIAS.map((cat) => (
+                    <SelectItem key={cat} value={cat}>
+                      {cat}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Duração e Preço */}
             <div className="grid grid-cols-2 gap-3">
               <div className="grid gap-2">
                 <Label>Duração (min)</Label>
@@ -173,9 +319,7 @@ export function Servicos() {
                   type="number"
                   placeholder="60"
                   value={form.duracao}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, duracao: e.target.value }))
-                  }
+                  onChange={(e) => setForm((f) => ({ ...f, duracao: e.target.value }))}
                 />
               </div>
               <div className="grid gap-2">
@@ -184,9 +328,7 @@ export function Servicos() {
                   type="number"
                   placeholder="80"
                   value={form.preco}
-                  onChange={(e) =>
-                    setForm((f) => ({ ...f, preco: e.target.value }))
-                  }
+                  onChange={(e) => setForm((f) => ({ ...f, preco: e.target.value }))}
                 />
               </div>
             </div>
