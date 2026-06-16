@@ -150,7 +150,7 @@ export function Servicos() {
         {/* Header */}
         <div className="grid grid-cols-[40px_2fr_1fr_1fr_1fr_80px] px-4 py-2.5 bg-primary/40 border-b border-border">
           <span />
-          <span className="text-xs font-medium text-muted-foreground">Nome</span>
+          <span className="text-xs font-medium text-muted-foreground">Nome | Descrição</span>
           <span className="text-xs font-medium text-muted-foreground">Categoria</span>
           <span className="text-xs font-medium text-muted-foreground">Duração</span>
           <span className="text-xs font-medium text-muted-foreground">Preço</span>
@@ -182,7 +182,9 @@ export function Servicos() {
             <div className="flex flex-col min-w-0">
               <span className="text-sm text-foreground truncate">{s.nome}</span>
               {s.descricao && (
-                <span className="text-xs text-muted-foreground truncate">{s.descricao}</span>
+                <span className="text-xs text-muted-foreground truncate" title={s.descricao}>
+                  {s.descricao.length > 60 ? s.descricao.slice(0, 60).trimEnd() + "…" : s.descricao}
+                </span>
               )}
             </div>
 
@@ -235,7 +237,7 @@ export function Servicos() {
                 onChange={handleImageChange}
               />
               {form.imagemUrl ? (
-                <div className="relative w-full h-36 rounded-lg overflow-hidden border border-border group">
+                <div className="relative w-full rounded-lg overflow-hidden border border-border group" style={{ aspectRatio: "5 / 4" }}>
                   <img
                     src={form.imagemUrl}
                     alt="Preview"
@@ -262,7 +264,8 @@ export function Servicos() {
                 <button
                   type="button"
                   onClick={() => fileInputRef.current?.click()}
-                  className="w-full h-36 rounded-lg border-2 border-dashed border-border hover:border-primary/50 hover:bg-muted/30 transition-colors flex flex-col items-center justify-center gap-2 text-muted-foreground"
+                  style={{ aspectRatio: "5 / 4" }}
+                  className="w-full rounded-lg border-2 border-dashed border-border hover:border-primary/50 hover:bg-muted/30 transition-colors flex flex-col items-center justify-center gap-2 text-muted-foreground"
                 >
                   <ImagePlus className="w-6 h-6" />
                   <span className="text-sm">Clique para adicionar uma imagem</span>
@@ -274,22 +277,45 @@ export function Servicos() {
             <div className="grid gap-2">
               <Label>Nome</Label>
               <Input
-                placeholder="Ex: Massagem relaxante"
+                placeholder="Ex: Corte feminino"
                 value={form.nome}
                 onChange={(e) => setForm((f) => ({ ...f, nome: e.target.value }))}
               />
             </div>
 
             {/* Descrição */}
-            <div className="grid gap-2">
-              <Label>Descrição</Label>
-              <Textarea
-                placeholder="Descreva brevemente o serviço..."
-                value={form.descricao}
-                onChange={(e) => setForm((f) => ({ ...f, descricao: e.target.value }))}
-                className="resize-none h-20"
-              />
-            </div>
+            {(() => {
+              const MAX = 160;
+              const restante = MAX - form.descricao.length;
+              const quaseNoLimite = restante <= 20;
+              return (
+                <div className="grid gap-2">
+                  <div className="flex items-center justify-between">
+                    <Label>Descrição</Label>
+                    <span
+                      className={`text-xs tabular-nums transition-colors ${
+                        restante === 0
+                          ? "text-destructive font-medium"
+                          : quaseNoLimite
+                          ? "text-amber-500"
+                          : "text-muted-foreground"
+                      }`}
+                    >
+                      {restante} caracteres restantes
+                    </span>
+                  </div>
+                  <Textarea
+                    placeholder="Descreva brevemente o serviço..."
+                    value={form.descricao}
+                    maxLength={MAX}
+                    onChange={(e) => setForm((f) => ({ ...f, descricao: e.target.value }))}
+                    className={`resize-none h-20 transition-colors ${
+                      restante === 0 ? "border-destructive focus-visible:ring-destructive" : ""
+                    }`}
+                  />
+                </div>
+              );
+            })()}
 
             {/* Categoria */}
             <div className="grid gap-2">
