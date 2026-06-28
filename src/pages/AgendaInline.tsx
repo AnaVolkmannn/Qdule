@@ -93,14 +93,14 @@ export function AgendaInline({ servico, onFechar }: AgendaInlineProps) {
 
       {/* Serviço */}
       <div className="rounded-2xl p-5 bg-white/80 border border-red-100 shadow-sm mb-8">
-        <p className="text-xs uppercase tracking-wider text-red-400 font-semibold">
+        <p className="text-xs uppercase tracking-wider text-accent font-semibold">
           Serviço selecionado
         </p>
 
         <h2 className="text-2xl font-bold mt-1">{servico.name}</h2>
 
         <p className="text-sm mt-1 font-medium text-muted-foreground">
-          R$ {servico.price} • {servico.duration} min
+          R$ {servico.price} • {servico.duration / 60} min
         </p>
       </div>
 

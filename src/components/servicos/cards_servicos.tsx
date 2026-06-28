@@ -28,7 +28,7 @@ export interface Treatment {
 const getTreatmentByType = (type: TreatmentType) => {
   switch (type) {
     case TreatmentType.Body:
-      return "Corpo";
+      return "Corporal";
     case TreatmentType.Facial:
       return "Facial";
     default:
@@ -209,7 +209,7 @@ function CarrosselType({
                   key={item.id}
                   data-card
                   onClick={() => onCardClick(item)}
-                  className={`flex-shrink-0 overflow-hidden bg-white/70 backdrop-blur-lg shadow-lg border cursor-pointer snap-start flex flex-col p-0 rounded-2xl w-[85%] sm:w-[48%] lg:w-[23%] transition-all duration-200 hover:shadow-xl hover:-translate-y-1 active:scale-95 ${
+                  className={`shrink-0 overflow-hidden bg-white/70 backdrop-blur-lg shadow-lg border cursor-pointer snap-start flex flex-col p-0 rounded-2xl w-[85%] sm:w-[48%] lg:w-[23%] transition-all duration-200 hover:shadow-xl hover:-translate-y-1 active:scale-95 ${
                     ativo ? "border-secondary border-3" : "border-white/50"
                   }`}
                 >
@@ -276,7 +276,7 @@ function ModalServico({
         <div className="p-5 flex flex-col gap-4">
           {/* Badge categoria */}
           <span className="text-xs font-medium text-accent uppercase tracking-wide">
-            {servico.type}
+             {getTreatmentByType(servico.type)}
           </span>
 
           <h2 className="text-xl font-semibold leading-snug">{servico.name}</h2>
@@ -400,7 +400,7 @@ export function CardServicos() {
         ref={agendaRef}
         className={`overflow-hidden transition-all duration-500 ease-in-out ${
           servicoAtivo
-            ? "max-h-[2000px] opacity-100 mt-10"
+            ? "max-h-500 opacity-100 mt-10"
             : "max-h-0 opacity-0 mt-0"
         }`}
         style={{ scrollMarginTop: "1.5rem" }}
