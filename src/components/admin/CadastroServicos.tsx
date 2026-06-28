@@ -31,6 +31,7 @@ import {
   type TreatmentStatus,
   type TreatmentType,
 } from "@/requests/TreatmentAdminRequests";
+import { supabase } from "@/lib/supabase";
 
 const CATEGORIAS: { label: string; value: TreatmentType }[] = [
   { label: "Estética facial", value: "FACIAL" },
@@ -65,9 +66,11 @@ const FORM_VAZIO: FormState = {
 };
 
 
+
 export function Servicos() {
   const queryClient = useQueryClient();
 
+  const [uploadingImage, setUploadingImage] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editing, setEditing] = useState<TreatmentResponse | null>(null);
   const [deleteTarget, setDeleteTarget] = useState<TreatmentResponse | null>(null);
@@ -147,14 +150,42 @@ export function Servicos() {
     setDialogOpen(true);
   }
 
-  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+  async function uploadImage(file: File): Promise<string> {
+  const fileExt = file.name.split(".").pop();
+  const fileName = `${Date.now()}-${Math.random()}.${fileExt}`;
+  const filePath = `servicos/${fileName}`;
+
+  const { error } = await supabase.storage
+    .from("treatments")
+    .upload(filePath, file);
+
+  if (error) throw error;
+
+  const { data } = supabase.storage
+    .from("treatments")
+    .getPublicUrl(filePath);
+
+  return data.publicUrl;
+}
+
+  async function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      setForm((f) => ({ ...f, imagemUrl: ev.target?.result as string }));
-    };
-    reader.readAsDataURL(file);
+
+    try {
+      setUploadingImage(true);
+
+      const url = await uploadImage(file);
+
+      setForm((f) => ({
+        ...f,
+        imagemUrl: url,
+      }));
+    } catch (err) {
+      console.error("Erro no upload da imagem:", err);
+    } finally {
+      setUploadingImage(false);
+    }
   }
 
   function buildPayload(): TreatmentPayload | null {
@@ -372,7 +403,15 @@ export function Servicos() {
                 className="hidden"
                 onChange={handleImageChange}
               />
-              {form.imagemUrl ? (
+              {uploadingImage ? (
+                <div
+                  className="w-full rounded-lg border flex items-center justify-center gap-2 text-muted-foreground"
+                  style={{ aspectRatio: "5 / 4" }}
+                >
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Enviando imagem...
+                </div>
+              ) : form.imagemUrl ? (
                 <div
                   className="relative w-full rounded-lg overflow-hidden border border-border group"
                   style={{ aspectRatio: "5 / 4" }}
@@ -382,6 +421,7 @@ export function Servicos() {
                     alt="Preview"
                     className="w-full h-full object-cover"
                   />
+
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
                     <Button
                       size="sm"
@@ -390,6 +430,7 @@ export function Servicos() {
                     >
                       Trocar
                     </Button>
+
                     <Button
                       size="sm"
                       variant="destructive"
