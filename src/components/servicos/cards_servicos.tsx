@@ -14,7 +14,7 @@ import {
 import { AgendaInline } from "@/pages/AgendaInline";
 import { TreatmentStatus, TreatmentType } from "@joao.sumi/qdule";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
-import TreatmentFilter from "@/requests/TreatmentRequest";
+import { TreatmentFilter } from "@/requests/TreatmentRequest";
 
 export interface Treatment {
   id: number;

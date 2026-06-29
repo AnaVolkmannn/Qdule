@@ -1,7 +1,7 @@
 import { baseUrl } from "@/EnvVariables";
 import { TreatmentResourceApi, TreatmentType } from "@joao.sumi/qdule";
 
-export default async function TreatmentFilter(
+export async function TreatmentFilter(
   page: number,
   size: number,
   text?: string,
@@ -14,6 +14,15 @@ export default async function TreatmentFilter(
     size,
     type,
     text,
+  });
+  return data;
+}
+
+export async function TreatmentById(id: number) {
+  const treatmentApi = new TreatmentResourceApi(undefined, baseUrl);
+
+  const { data } = await treatmentApi.treatmentsIdGet({
+    id,
   });
   return data;
 }
