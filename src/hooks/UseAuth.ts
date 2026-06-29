@@ -1,3 +1,6 @@
+// src/hooks/useAuth.ts
+// Hook separado do AuthContext para satisfazer Fast Refresh
+
 import { useContext } from "react";
 import { AuthContext } from "@/context/AuthContext";
 

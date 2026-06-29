@@ -1,3 +1,6 @@
+// src/context/AuthContext.tsx
+// Exporta apenas o componente AuthProvider (Fast Refresh requer só components por arquivo)
+
 import {
   createContext,
   useState,
