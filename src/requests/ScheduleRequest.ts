@@ -1,10 +1,13 @@
 import { baseUrl } from "@/EnvVariables";
 import { api } from "@/lib/api";
 import {
+  EmailResourceApi,
+  EmailType,
   ScheduleResourceApi,
   ScheduleStatus,
   type PageResponse,
   type ScheduleResponse,
+  type ScheduleUpdateRequest,
 } from "@joao.sumi/qdule";
 
 const publicScheduleApi = new ScheduleResourceApi(undefined, baseUrl);
@@ -13,6 +16,7 @@ const authenticatedScheduleApi = new ScheduleResourceApi(
   baseUrl,
   api,
 );
+const emailResourceApi = new EmailResourceApi(undefined, baseUrl, api);
 
 function normalizeScheduleList(data: PageResponse): ScheduleResponse[] {
   return (data.content ?? []) as ScheduleResponse[];
@@ -42,6 +46,14 @@ export async function CreateSchedule(
     },
   });
 
+  await emailResourceApi.sendPost({
+    emailSendRequest: {
+      clientId: data.clientId,
+      emailType: EmailType.ScheduleCreated,
+      scheduleId: data.id,
+    },
+  });
+
   return data;
 }
 
@@ -64,26 +76,24 @@ export async function GetSchedules(params?: {
 }
 
 export async function CancelSchedule(
-  schedule: Pick<
-    ScheduleResponse,
-    "id" | "startDateTime" | "endDateTime" | "reason"
-  >,
+  id: number,
+  scheduleUpdateRequest: ScheduleUpdateRequest,
 ): Promise<ScheduleResponse> {
-  if (
-    schedule.id === undefined ||
-    !schedule.startDateTime ||
-    !schedule.endDateTime
-  ) {
-    throw new Error("Agendamento inválido para cancelamento.");
-  }
-
   const { data } = await authenticatedScheduleApi.schedulesIdPut({
-    id: schedule.id,
+    id: id,
     scheduleUpdateRequest: {
-      startDateTime: schedule.startDateTime,
-      endDateTime: schedule.endDateTime,
-      reason: schedule.reason ?? "",
+      startDateTime: scheduleUpdateRequest.startDateTime,
+      endDateTime: scheduleUpdateRequest.endDateTime,
+      reason: scheduleUpdateRequest.reason ?? "",
       status: ScheduleStatus.Canceled,
+    },
+  });
+
+  await emailResourceApi.sendPost({
+    emailSendRequest: {
+      clientId: data.clientId,
+      emailType: EmailType.ScheduleCanceled,
+      scheduleId: data.id,
     },
   });
 

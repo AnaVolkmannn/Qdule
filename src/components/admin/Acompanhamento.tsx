@@ -6,7 +6,11 @@ import { Loader2, XCircle } from "lucide-react";
 import { toast } from "sonner";
 import type { ExcecaoDia } from "@/components/admin/ConfigHorarios";
 import { CancelSchedule, GetSchedules } from "@/requests/ScheduleRequest";
-import { ScheduleStatus, type ScheduleResponse } from "@joao.sumi/qdule";
+import {
+  ScheduleStatus,
+  type ScheduleResponse,
+  type ScheduleUpdateRequest,
+} from "@joao.sumi/qdule";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { TreatmentById as GetTreatmentById } from "@/requests/TreatmentRequest";
 
@@ -41,16 +45,12 @@ interface AcompanhamentoProps {
   excecoes: ExcecaoDia[];
 }
 
-type AppointmentInfo = {
+interface AppointmentInfo extends ScheduleUpdateRequest {
   id: number;
   time: string;
   date: string;
-  startDateTime: string;
-  endDateTime: string;
-  reason?: string;
   treatmentId?: number;
-  status?: ScheduleStatus;
-};
+}
 
 function ScheduleOption({
   info,
@@ -99,11 +99,7 @@ function ScheduleOption({
         aria-label="Cancelar agendamento"
         title="Cancelar agendamento"
       >
-        {isCanceling ? (
-          <Loader2 className="animate-spin" />
-        ) : (
-          <XCircle />
-        )}
+        {isCanceling ? <Loader2 className="animate-spin" /> : <XCircle />}
       </Button>
     </div>
   );
@@ -253,7 +249,7 @@ export function Acompanhamento({ excecoes }: AcompanhamentoProps) {
   });
 
   const cancelScheduleMutation = useMutation({
-    mutationFn: (info: AppointmentInfo) => CancelSchedule(info),
+    mutationFn: (info: AppointmentInfo) => CancelSchedule(info.id, info),
     onSuccess: async (_updatedSchedule, info) => {
       toast.success("Agendamento cancelado.");
       setAppointmentToCancel(null);
@@ -587,7 +583,9 @@ export function Acompanhamento({ excecoes }: AcompanhamentoProps) {
             </DialogDescription>
           </DialogHeader>
 
-          {selectedAppointment && <AppointmentDetails info={selectedAppointment} />}
+          {selectedAppointment && (
+            <AppointmentDetails info={selectedAppointment} />
+          )}
         </DialogContent>
       </Dialog>
 
