@@ -1,8 +1,6 @@
 import { baseUrl } from "@/EnvVariables";
 import { api } from "@/lib/api";
 import {
-  EmailResourceApi,
-  EmailType,
   ScheduleResourceApi,
   ScheduleStatus,
   type PageResponse,
@@ -16,7 +14,6 @@ const authenticatedScheduleApi = new ScheduleResourceApi(
   baseUrl,
   api,
 );
-const emailResourceApi = new EmailResourceApi(undefined, baseUrl, api);
 
 function normalizeScheduleList(data: PageResponse): ScheduleResponse[] {
   return (data.content ?? []) as ScheduleResponse[];
@@ -43,14 +40,6 @@ export async function CreateSchedule(
       endDateTime,
       reason: "",
       status,
-    },
-  });
-
-  await emailResourceApi.sendPost({
-    emailSendRequest: {
-      clientId: data.clientId,
-      emailType: EmailType.ScheduleCreated,
-      scheduleId: data.id,
     },
   });
 
@@ -86,14 +75,6 @@ export async function CancelSchedule(
       endDateTime: scheduleUpdateRequest.endDateTime,
       reason: scheduleUpdateRequest.reason ?? "",
       status: ScheduleStatus.Canceled,
-    },
-  });
-
-  await emailResourceApi.sendPost({
-    emailSendRequest: {
-      clientId: data.clientId,
-      emailType: EmailType.ScheduleCanceled,
-      scheduleId: data.id,
     },
   });
 
