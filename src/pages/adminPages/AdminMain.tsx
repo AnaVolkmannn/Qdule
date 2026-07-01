@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { Sidebar } from "@/components/adminComponents/Sidebar";
 import { Acompanhamento } from "@/components/adminComponents/Acompanhamento";
 import { Servicos } from "@/components/adminComponents/CRUDServicos";
-import { Configuracoes } from "@/components/adminComponents/Configuracoes";
 import { ConfigHorarios } from "@/components/adminComponents/ConfigHorarios";
 import type {
   ExcecaoDia,
@@ -38,7 +37,6 @@ export default function Admin() {
       <main className="flex-1 overflow-y-auto">
         {page === "acompanhamento" && <Acompanhamento excecoes={excecoes} />}
         {page === "servicos" && <Servicos />}
-        {page === "configuracoes" && <Configuracoes />}
         {page === "horarios" && (
           <ConfigHorarios
             ref={configHorariosRef}

@@ -2,8 +2,8 @@
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Servico from "@/pages/usuarioPages/MuralServicos";
-import Admin from "@/pages/admin-dashboard/Admin";
-import { Login } from "@/pages/admin-dashboard/Login";
+import Admin from "@/pages/adminPages/AdminMain";
+import { Login } from "@/pages/adminPages/AdminLogin";
 import { ProtectedRoute } from "@/routes/ProtectedRoute";
 import { Toaster } from "@/components/ui/sonner";
 
